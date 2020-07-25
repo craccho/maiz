@@ -8,15 +8,14 @@ require 'sinatra/base'
 require 'typhoeus'
 require 'oauth/request_proxy/typhoeus_request'
 
-CONSUMER_ID=ENV['ZAIM_CONSUMER_ID']
-CONSUMER_SECRET=ENV['ZAIM_CONSUMER_SECRET']
-PROVIDER_BASE='https://api.zaim.net'
-REQUEST_TOKEN_PATH='/v2/auth/request'
-AUTH_URL='https://auth.zaim.net/users/auth'
-ACCESS_TOKEN_PATH="/v2/auth/access"
-MY_URL='http://localhost:4567/'
-CALLBACK_URL="#{MY_URL}oauth/callback"
-
+CONSUMER_ID = ENV['ZAIM_CONSUMER_ID']
+CONSUMER_SECRET = ENV['ZAIM_CONSUMER_SECRET']
+PROVIDER_BASE = 'https://api.zaim.net'.freeze
+REQUEST_TOKEN_PATH = '/v2/auth/request'.freeze
+AUTH_URL = 'https://auth.zaim.net/users/auth'.freeze
+ACCESS_TOKEN_PATH = '/v2/auth/access'.freeze
+MY_URL = 'http://localhost:4567/'.freeze
+CALLBACK_URL = "#{MY_URL}oauth/callback".freeze
 
 class Maiz < Sinatra::Base
   set :sessions, true
@@ -44,13 +43,13 @@ class Maiz < Sinatra::Base
       redirect '/oauth/request'
       break
     end
-    oauth_params = {consumer: oauth_consumer, token: access_token}
+    oauth_params = { consumer: oauth_consumer, token: access_token }
     hydra = Typhoeus::Hydra.new
     uri = 'https://api.zaim.net/v2/home/user/verify'
-    options = {method: :get}
+    options = { method: :get }
     req = Typhoeus::Request.new(uri, options)
     oauth_helper = OAuth::Client::Helper.new(req, oauth_params.merge(request_uri: uri))
-    req.options[:headers].merge!({"Authorization" => oauth_helper.header})
+    req.options[:headers].merge!({ 'Authorization' => oauth_helper.header })
     hydra.queue(req)
     hydra.run
     req.response.body
@@ -66,13 +65,12 @@ class Maiz < Sinatra::Base
 
   get '/oauth/callback' do
     oauth_consumer = get_oauth_consumer
-    hash = { oauth_token: session[:token], oauth_token_secret: session[:token_secret]}
+    hash = { oauth_token: session[:token], oauth_token_secret: session[:token_secret] }
     request_token = OAuth::RequestToken.from_hash(oauth_consumer, hash)
     access_token = request_token.get_access_token(oauth_verifier: params[:oauth_verifier])
     session[:access_token] = access_token
     redirect '/'
   end
 
-  run! if app_file == $0
+  run! if app_file == $PROGRAM_NAME
 end
-
