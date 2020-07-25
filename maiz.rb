@@ -1,10 +1,9 @@
-#!/usr/bin/ruby
-
 require 'byebug'
 require 'oauth'
 require 'yaml'
 require 'net/http'
 require 'sinatra/base'
+require 'sinatra/reloader'
 require 'typhoeus'
 require 'oauth/request_proxy/typhoeus_request'
 
@@ -19,6 +18,9 @@ CALLBACK_URL = "#{MY_URL}oauth/callback".freeze
 
 class Maiz < Sinatra::Base
   set :sessions, true
+  configure :development do
+    register Sinatra::Reloader
+  end
 
   def get_oauth_consumer
     OAuth::Consumer.new(
@@ -72,5 +74,6 @@ class Maiz < Sinatra::Base
     redirect '/'
   end
 
+  require File.join(root, '/config/initializers/autoloader.rb')
   run! if app_file == $PROGRAM_NAME
 end

@@ -1,1 +1,1 @@
-bundle exec ruby app/maiz.rb
+bundle exec ruby ./maiz.rb

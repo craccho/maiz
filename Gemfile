@@ -11,4 +11,5 @@ gem 'typhoeus'
 group 'development' do
   gem 'irb'
   gem 'byebug'
+  gem 'sinatra-reloader'
 end

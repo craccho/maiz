@@ -1,2 +1,2 @@
-require './app/maiz.rb'
+require './maiz.rb'
 run Maiz
