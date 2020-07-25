@@ -1,1 +1,1 @@
-bundle exec ruby lib/oauth.rb
+bundle exec ruby app/maiz.rb
