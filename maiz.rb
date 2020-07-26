@@ -45,11 +45,12 @@ class Maiz < Sinatra::Base
   end
 
   get '/oauth/request' do
-    oauth_consumer = self.oauth_consumer
-    request_token = oauth_consumer.get_request_token(oauth_callback: Zaim::OauthConsumer::CALLBACK_URL)
-    session[:token] = request_token.token
-    session[:token_secret] = request_token.secret
-    redirect request_token.authorize_url(oauth_callback: Zaim::OauthConsumer::CALLBACK_URL)
+    result = Zaim::OauthConsumer::Operation::Request.(session: session)
+    if result.success?
+      redirect result[:redirect_url]
+    else
+      result
+    end
   end
 
   get '/oauth/callback' do
