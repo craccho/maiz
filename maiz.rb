@@ -54,12 +54,12 @@ class Maiz < Sinatra::Base
   end
 
   get '/oauth/callback' do
-    oauth_consumer = self.oauth_consumer
-    hash = { oauth_token: session[:token], oauth_token_secret: session[:token_secret] }
-    request_token = OAuth::RequestToken.from_hash(oauth_consumer, hash)
-    access_token = request_token.get_access_token(oauth_verifier: params[:oauth_verifier])
-    session[:access_token] = access_token
-    redirect '/'
+    result = Zaim::OauthConsumer::Operation::Callback.(params: params, session: session)
+    if result.success?
+      redirect '/'
+    else
+      result
+    end
   end
 
   require File.join(root, '/config/initializers/autoloader.rb')
