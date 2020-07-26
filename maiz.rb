@@ -1,3 +1,4 @@
+require 'pry'
 require 'byebug'
 require 'oauth'
 require 'yaml'
@@ -7,29 +8,15 @@ require 'sinatra/reloader'
 require 'typhoeus'
 require 'oauth/request_proxy/typhoeus_request'
 
-CONSUMER_ID = ENV['ZAIM_CONSUMER_ID']
-CONSUMER_SECRET = ENV['ZAIM_CONSUMER_SECRET']
-PROVIDER_BASE = 'https://api.zaim.net'.freeze
-REQUEST_TOKEN_PATH = '/v2/auth/request'.freeze
-AUTH_URL = 'https://auth.zaim.net/users/auth'.freeze
-ACCESS_TOKEN_PATH = '/v2/auth/access'.freeze
-MY_URL = 'http://localhost:4567/'.freeze
-CALLBACK_URL = "#{MY_URL}oauth/callback".freeze
-
 class Maiz < Sinatra::Base
   set :sessions, true
   configure :development do
     register Sinatra::Reloader
   end
 
-  def get_oauth_consumer
-    OAuth::Consumer.new(
-      CONSUMER_ID, CONSUMER_SECRET,
-      site: PROVIDER_BASE,
-      request_token_path: REQUEST_TOKEN_PATH,
-      authorize_url: AUTH_URL,
-      access_token_path: ACCESS_TOKEN_PATH,
-    )
+  def oauth_consumer
+    result = Zaim::OauthConsumer::Operation::Create.()
+    result.success? ? result[:oauth_consumer] : nil
   end
 
   get '/oauth/logout' do
@@ -38,7 +25,7 @@ class Maiz < Sinatra::Base
   end
 
   get '/' do
-    oauth_consumer = get_oauth_consumer
+    oauth_consumer = self.oauth_consumer
 
     access_token = session[:access_token]
     unless access_token
@@ -58,15 +45,15 @@ class Maiz < Sinatra::Base
   end
 
   get '/oauth/request' do
-    oauth_consumer = get_oauth_consumer
-    request_token = oauth_consumer.get_request_token(oauth_callback: CALLBACK_URL)
+    oauth_consumer = self.oauth_consumer
+    request_token = oauth_consumer.get_request_token(oauth_callback: Zaim::OauthConsumer::CALLBACK_URL)
     session[:token] = request_token.token
     session[:token_secret] = request_token.secret
-    redirect request_token.authorize_url(oauth_callback: CALLBACK_URL)
+    redirect request_token.authorize_url(oauth_callback: Zaim::OauthConsumer::CALLBACK_URL)
   end
 
   get '/oauth/callback' do
-    oauth_consumer = get_oauth_consumer
+    oauth_consumer = self.oauth_consumer
     hash = { oauth_token: session[:token], oauth_token_secret: session[:token_secret] }
     request_token = OAuth::RequestToken.from_hash(oauth_consumer, hash)
     access_token = request_token.get_access_token(oauth_verifier: params[:oauth_verifier])
