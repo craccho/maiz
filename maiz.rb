@@ -15,7 +15,7 @@ class Maiz < Sinatra::Base
   end
 
   def oauth_consumer
-    result = Zaim::OauthConsumer::Operation::Create.()
+    result = Zaim::OauthConsumer::Operation::Create.call()
     result.success? ? result[:oauth_consumer] : nil
   end
 
@@ -33,14 +33,14 @@ class Maiz < Sinatra::Base
 
     uri = 'https://api.zaim.net/v2/home/user/verify'
 
-    result = Zaim::OauthConsumer::Operation::CallApi.(uri: uri, method: :get, access_token: access_token)
+    result = Zaim::OauthConsumer::Operation::CallApi.call(uri: uri, method: :get, access_token: access_token)
     if result.success?
       result[:response].body
     end
   end
 
   get '/oauth/request' do
-    result = Zaim::OauthConsumer::Operation::Request.(session: session)
+    result = Zaim::OauthConsumer::Operation::Request.call(session: session)
     if result.success?
       redirect result[:redirect_url]
     else
@@ -49,7 +49,7 @@ class Maiz < Sinatra::Base
   end
 
   get '/oauth/callback' do
-    result = Zaim::OauthConsumer::Operation::Callback.(params: params, session: session)
+    result = Zaim::OauthConsumer::Operation::Callback.call(params: params, session: session)
     if result.success?
       redirect '/'
     else
