@@ -25,23 +25,18 @@ class Maiz < Sinatra::Base
   end
 
   get '/' do
-    oauth_consumer = self.oauth_consumer
-
     access_token = session[:access_token]
     unless access_token
       redirect '/oauth/request'
       break
     end
-    oauth_params = { consumer: oauth_consumer, token: access_token }
-    hydra = Typhoeus::Hydra.new
+
     uri = 'https://api.zaim.net/v2/home/user/verify'
-    options = { method: :get }
-    req = Typhoeus::Request.new(uri, options)
-    oauth_helper = OAuth::Client::Helper.new(req, oauth_params.merge(request_uri: uri))
-    req.options[:headers].merge!({ 'Authorization' => oauth_helper.header })
-    hydra.queue(req)
-    hydra.run
-    req.response.body
+
+    result = Zaim::OauthConsumer::Operation::CallApi.(uri: uri, method: :get, access_token: access_token)
+    if result.success?
+      result[:response].body
+    end
   end
 
   get '/oauth/request' do
