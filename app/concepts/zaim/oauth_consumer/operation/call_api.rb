@@ -1,16 +1,32 @@
-require './app/concepts/zaim/oauth_consumer/operation/create'
+require_relative 'create'
 module Zaim::OauthConsumer
   module Operation
     class CallApi < Trailblazer::Operation
       step Subprocess(Create)
-      step :make_request
+      step :build_request, input: %i[uri method], output: %i[req]
+      step :build_oauth_params, input: %i[oauth_consumer access_token uri], output: %i[oauth_params]
+      step :add_authorization_header_to_req, input: %i[oauth_params req], output: %i[]
+      step :do_request, input: %i[req], output: %i[response]
 
-      def make_request(ctx, access_token:, uri:, method:, **)
-        oauth_params = { consumer: ctx[:oauth_consumer], token: access_token, request_uri: uri}
-        hydra = Typhoeus::Hydra.new
-        req = Typhoeus::Request.new(uri, {method: method})
+      def build_request(ctx, uri:, method:, **)
+        ctx[:req] = Typhoeus::Request.new(uri, {method: method})
+      end
+
+      def build_oauth_params(ctx, oauth_consumer:, access_token:, uri:, **)
+        ctx[:oauth_params] = {
+          consumer: oauth_consumer,
+          token: access_token,
+          request_uri: uri
+        }
+      end
+
+      def add_authorization_header_to_req(_ctx, oauth_params:, req:, **)
         oauth_helper = OAuth::Client::Helper.new(req, oauth_params)
         req.options[:headers].merge!({ 'Authorization' => oauth_helper.header })
+      end
+
+      def do_request(ctx, req:, **)
+        hydra = Typhoeus::Hydra.new
         hydra.queue(req)
         hydra.run
         ctx[:response] = req.response

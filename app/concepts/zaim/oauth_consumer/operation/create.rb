@@ -1,7 +1,7 @@
 module Zaim::OauthConsumer
   module Operation
     class Create < Trailblazer::Operation
-      step :oauth_consumer
+      step :oauth_consumer, input: [], output: [:oauth_consumer]
 
       def oauth_consumer(ctx, **)
         ctx[:oauth_consumer] = OAuth::Consumer.new(
