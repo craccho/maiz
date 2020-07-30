@@ -14,8 +14,8 @@ class Maiz < Sinatra::Base
     register Sinatra::Reloader
   end
 
-  def oauth_consumer
-    result = Zaim::OauthConsumer::Operation::Create.call()
+  def self.oauth_consumer
+    result = Zaim::OauthConsumer::Operation::Create.call
     result.success? ? result[:oauth_consumer] : nil
   end
 
