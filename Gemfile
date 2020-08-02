@@ -19,4 +19,5 @@ group 'development' do
   gem 'sinatra-reloader'
   gem 'trailblazer-developer'
   gem 'pry'
+  gem 'ruby-prof'
 end

@@ -9,7 +9,7 @@ require 'typhoeus'
 require 'oauth/request_proxy/typhoeus_request'
 
 class Maiz < Sinatra::Base
-  set :sessions, true
+  set :environment, :development
   configure :development do
     register Sinatra::Reloader
   end
@@ -58,5 +58,5 @@ class Maiz < Sinatra::Base
   end
 
   require File.join(root, '/config/initializers/autoloader.rb')
-  run! if app_file == $PROGRAM_NAME
+  run! if app_file == $PROGRAM_NAME || $PROGRAM_NAME =~ /ruby-prof$/
 end

@@ -1,0 +1,47 @@
+digraph {
+    node [shape=oval color="#ffff00" style=filled];
+    f_oauth_consumer; f_get_request_token;
+    f_get_url_to_authorize; f_get_access_token;
+    f_user_action;
+    f_build_request; f_build_oauth_params;
+    f_add_authorization_header_to_req;
+    f_do_request;
+
+    node [shape="record" color="#ff00ff" style=""];
+    start [label="start|0" ];
+    method [label="method|0" ];
+    uri [label="uri|0" ];
+    req [label="req|1" ];
+    oauth_consumer [label="oauth_consumer|1" ];
+    request_token [label="request_token|2" ];
+    redirect_url [label="redirect_url|3" ];
+    user [label="user|10" ];
+    params [label="params|13" ];
+    access_token [label="access_token|14" ];
+    oauth_params [label="oauth_params|16" ];
+    req_with_authorization_header [label="req_with_authorization_header|18" ];
+    response [label="response|19" ];
+
+    start -> f_oauth_consumer;
+    f_oauth_consumer -> oauth_consumer;
+    oauth_consumer -> f_get_request_token;
+    f_get_request_token -> request_token;
+    // {session, request_token} -> session [label = "save_request_token_to_session"];
+    request_token -> f_get_url_to_authorize;
+    f_get_url_to_authorize -> redirect_url;
+    // {oauth_consumer, session} -> request_token [label = "extract_request_token"];
+    {request_token, params} -> f_get_access_token;
+    f_get_access_token -> access_token;
+    // {access_token, session} -> session [label = "store_access_token_to_session"];
+    {redirect_url, user} -> f_user_action;
+    f_user_action -> params;
+
+    {uri, method} -> f_build_request;
+    f_build_request -> req;
+    {oauth_consumer, access_token, uri} -> f_build_oauth_params;
+    f_build_oauth_params -> oauth_params;
+    {oauth_params, req} -> f_add_authorization_header_to_req;
+    f_add_authorization_header_to_req -> req_with_authorization_header;
+    req_with_authorization_header -> f_do_request;
+    f_do_request -> response;
+}
