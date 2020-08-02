@@ -21,3 +21,5 @@ group 'development' do
   gem 'pry'
   gem 'ruby-prof'
 end
+
+gem 'rake', ">= 12.3.3"
