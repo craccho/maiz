@@ -2,7 +2,6 @@ require_relative 'create'
 module Zaim::OauthConsumer
   module Operation
     class CallApi < Trailblazer::Operation  # input: %i[uri method oauth_consumer access_token], output: %i[req response]
-      step Subprocess(Create) #               input: %i[],                                output: %i[oauth_consumer]
       step :build_request,                    input: %i[uri method],                      output: %i[req]
       step :build_oauth_params,               input: %i[oauth_consumer access_token uri], output: %i[oauth_params]
       step :add_authorization_header_to_req,  input: %i[oauth_params req],                output: %i[req]

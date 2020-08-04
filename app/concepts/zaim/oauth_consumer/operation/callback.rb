@@ -1,9 +1,17 @@
 module Zaim::OauthConsumer
   module Operation
+    class MyHandler
+      def self.call(exception, (ctx), *)
+        ctx[:exception_class] = exception.class
+        false
+      end
+    end
+
     class Callback < Trailblazer::Operation
-      step Subprocess(Create)
       step :extract_request_token, input: %i[oauth_consumer session], output: %i[request_token]
-      step :get_access_token, input: %i[request_token params], output: %i[access_token]
+      step Rescue( Exception, handler: MyHandler ) {
+        step :get_access_token, input: %i[request_token params], output: %i[access_token]
+      }
       step :store_access_token_to_session, input: %i[access_token session], output: %i[]
 
       def extract_request_token(ctx, oauth_consumer:, session:, **)
