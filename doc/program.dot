@@ -21,8 +21,8 @@ digraph {
     req_with_authorization_header [label="req_with_authorization_header|18" ];
     response [label="response|19" ];
 
-    subgraph clusterCreate {
-        label = "Create"
+    subgraph clusterRequest {
+        label = "Request"
         start -> f_oauth_consumer;
         f_oauth_consumer -> oauth_consumer;
         oauth_consumer -> f_get_request_token;

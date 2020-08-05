@@ -36,7 +36,7 @@ class Maiz < Sinatra::Base
   get '/' do
     access_token = session[:access_token]
     unless access_token
-      redirect '/oauth/request'
+      redirect '/oauth/request_user_auth'
       break
     end
 
@@ -48,17 +48,17 @@ class Maiz < Sinatra::Base
     end
   end
 
-  get '/oauth/request' do
-    result = Zaim::OauthConsumer::Operation::Request.call(**@my_env)
+  get '/oauth/request_user_auth' do
+    result = Zaim::OauthConsumer::Operation::RequestUserAuth.call(**@my_env)
     if result.success?
-      redirect result[:redirect_url]
+      redirect result[:user_auth_url]
     else
       result
     end
   end
 
-  get '/oauth/callback' do
-    result = Zaim::OauthConsumer::Operation::Callback.call(**@my_env)
+  get '/oauth/build_access_token' do
+    result = Zaim::OauthConsumer::Operation::BuildAccessToken.call(**@my_env)
     if result.success?
       redirect '/'
     else

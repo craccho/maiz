@@ -7,7 +7,7 @@ module Zaim::OauthConsumer
       end
     end
 
-    class Callback < Trailblazer::Operation
+    class BuildAccessToken < Trailblazer::Operation
       step :extract_request_token, input: %i[oauth_consumer session], output: %i[request_token]
       step Rescue( Exception, handler: MyHandler ) {
         step :get_access_token, input: %i[request_token params], output: %i[access_token]

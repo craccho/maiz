@@ -11,6 +11,6 @@ module Zaim
     CONSUMER_ID = ENV['ZAIM_CONSUMER_ID']
     CONSUMER_SECRET = ENV['ZAIM_CONSUMER_SECRET']
     MY_URL = 'http://localhost:4567/'.freeze
-    CALLBACK_URL = "#{MY_URL}oauth/callback".freeze
+    CALLBACK_URL = "#{MY_URL}oauth/build_access_token".freeze
   end
 end
