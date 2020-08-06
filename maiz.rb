@@ -15,6 +15,22 @@ class Maiz < Sinatra::Base
     register Sinatra::Reloader
   end
 
+  set(:require) do |key|
+    condition do
+      case key
+      when :access_token
+        access_token = @my_env[:session][:access_token]
+        unless access_token
+          @my_env[:session][:return_to] = request.path_info
+          redirect '/oauth/request_user_auth'
+          halt
+        else
+          @my_env[:access_token] = access_token
+        end
+      end
+    end
+  end
+
   before do
     @my_env = {
       oauth_consumer: self.class.oauth_consumer,
@@ -33,16 +49,9 @@ class Maiz < Sinatra::Base
     redirect '/'
   end
 
-  get '/' do
-    access_token = session[:access_token]
-    unless access_token
-      redirect '/oauth/request_user_auth'
-      break
-    end
-
+  get '/', require: :access_token do
     uri = 'https://api.zaim.net/v2/home/user/verify'
-
-    result = Zaim::OauthConsumer::Operation::CallApi.call(uri: uri, method: :get, access_token: access_token, **@my_env)
+    result = Zaim::OauthConsumer::Operation::CallApi.call(uri: uri, method: :get, **@my_env)
     if result.success?
       result[:response].body
     end
@@ -60,7 +69,7 @@ class Maiz < Sinatra::Base
   get '/oauth/build_access_token' do
     result = Zaim::OauthConsumer::Operation::BuildAccessToken.call(**@my_env)
     if result.success?
-      redirect '/'
+      redirect @my_env[:session][:return_to] || '/'
     else
       Rack::Utils.escape_html(pp result.to_hash)
     end
