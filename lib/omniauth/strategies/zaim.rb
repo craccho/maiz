@@ -1,6 +1,4 @@
 require 'omniauth-oauth'
-require 'typhoeus'
-require 'oauth/request_proxy/typhoeus_request'
 
 module OmniAuth
   module Strategies
