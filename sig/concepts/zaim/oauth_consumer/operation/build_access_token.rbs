@@ -1,6 +1,7 @@
 module Zaim::OauthConsumer
   module Operation
     class MyHandler
+      # def self.call: (untyped exception, (untyped | [untyped]) ctx, *untyped) -> boolish
     end
 
     class BuildAccessToken < Trailblazer::Operation
