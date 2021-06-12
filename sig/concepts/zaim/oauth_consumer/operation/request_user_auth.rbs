@@ -1,0 +1,11 @@
+module Zaim::OauthConsumer
+  module Operation
+    class RequestUserAuth < ::Trailblazer::Operation
+      def get_request_token: (untyped ctx, oauth_consumer: untyped, **untyped) -> boolish
+
+      def save_request_token_to_session: (untyped ctx, session: untyped, request_token: untyped, **untyped) -> boolish
+
+      def get_url_to_authorize: (untyped ctx, request_token: untyped, **untyped) -> boolish
+    end
+  end
+end

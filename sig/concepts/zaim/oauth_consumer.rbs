@@ -1,0 +1,19 @@
+module Zaim
+  module OauthConsumer
+    PROVIDER_BASE: String
+
+    REQUEST_TOKEN_PATH: String
+
+    AUTH_URL: String
+
+    ACCESS_TOKEN_PATH: String
+
+    CONSUMER_ID: String
+
+    CONSUMER_SECRET: String
+
+    MY_URL: String
+
+    CALLBACK_URL: String
+  end
+end

@@ -1,0 +1,4 @@
+# auth
+class Auth < Sinatra::Base
+  def self.oauth_consumer: () -> untyped
+end

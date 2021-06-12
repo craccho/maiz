@@ -1,0 +1,65 @@
+module Trailblazer
+  class Result < Hash[Symbol, untyped]
+    def success?: () -> boolish
+  end
+
+  class Operation
+    type step = Symbol | Subprocess
+
+    def self.step: (step, **untyped) -> untyped
+
+    class Subprocess
+    end
+
+    def self.Subprocess: (singleton(Operation), **untyped) -> Subprocess
+
+    def self.Rescue: (untyped, handler: Class) { () -> untyped } -> untyped
+
+    def self.call: (**untyped) -> Result
+  end
+end
+
+class AccessToken
+  def get: (String) -> untyped
+end
+
+module OmniAuth
+  module Strategies
+    class OAuth
+      def access_token: () -> AccessToken
+    end
+  end
+end
+
+module Sinatra
+  module BasicAuth
+    def authorize: (String) { (String, String) -> boolish } -> untyped
+  end
+
+  class Base
+    def self.run!: () -> untyped
+    def self.app_file: () -> String
+    def self.register: (Module) -> untyped
+    def self.set: (Symbol, ?untyped) ?{ (*untyped, **untyped) -> untyped } -> untyped
+    def self.provider: (Symbol, untyped, untyped) -> untyped
+    def self.get: (String) { () -> untyped } -> untyped
+    def self.use: (Class) { () -> untyped } -> untyped
+    def self.protect: (String) { () -> untyped } -> untyped
+    def self.configure: (Symbol) { () -> untyped } -> untyped
+    def self.before: () { () -> untyped } -> untyped
+    def self.condition: () { () -> untyped } -> untyped
+    def self.helpers: () { () -> untyped } -> untyped
+    def self?.redirect: (untyped) -> untyped
+    def self?.to: (String) -> untyped
+    def self?.current_user: () -> bool
+    def self?.pass: () -> untyped
+    def self?.back: () -> untyped
+
+    def self?.session: () -> Hash[Symbol, untyped]
+    def self?.request: () -> untyped
+    def self?.env: () -> Hash[String, untyped]
+    def self?.params: () -> Hash[Symbol, untyped]
+
+    attr_reader self.root: String
+  end
+end

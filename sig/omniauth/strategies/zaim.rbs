@@ -1,0 +1,23 @@
+module OmniAuth
+  module Strategies
+    # zaim oauth
+    class Zaim < ::OmniAuth::Strategies::OAuth
+      PROVIDER_BASE: ::String
+
+      REQUEST_TOKEN_PATH: ::String
+
+      AUTH_URL: ::String
+
+      ACCESS_TOKEN_PATH: ::String
+
+      def raw_info: () -> untyped
+
+      def self.extra: () { () -> Hash[Symbol, untyped] } -> untyped
+      def self.info: () { () -> Hash[Symbol, untyped] } -> untyped
+      def self.uid: () { () -> untyped } -> untyped
+      def self.raw_info: () -> untyped
+      def self.skip_info?: () -> boolish
+      def self.option: (Symbol, untyped) -> untyped
+    end
+  end
+end

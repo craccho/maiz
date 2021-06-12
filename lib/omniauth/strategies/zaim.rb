@@ -1,14 +1,17 @@
+# frozen_string_literal: true
+
 require 'omniauth-oauth'
 
 module OmniAuth
   module Strategies
+    # zaim oauth
     class Zaim < OmniAuth::Strategies::OAuth
-      PROVIDER_BASE = 'https://api.zaim.net'.freeze
-      REQUEST_TOKEN_PATH = '/v2/auth/request'.freeze
-      AUTH_URL = 'https://auth.zaim.net/users/auth'.freeze
-      ACCESS_TOKEN_PATH = '/v2/auth/access'.freeze
+      PROVIDER_BASE = 'https://api.zaim.net'
+      REQUEST_TOKEN_PATH = '/v2/auth/request'
+      AUTH_URL = 'https://auth.zaim.net/users/auth'
+      ACCESS_TOKEN_PATH = '/v2/auth/access'
 
-      option :name, "zaim"
+      option :name, 'zaim'
       option :client_options, {
         site: PROVIDER_BASE,
         request_token_path: REQUEST_TOKEN_PATH,
@@ -19,7 +22,6 @@ module OmniAuth
       uid { raw_info['me']['name'] }
 
       info do
-        puts raw_info
         {
           login: raw_info['me']['login'],
           id: raw_info['me']['id'],
@@ -33,7 +35,7 @@ module OmniAuth
       end
 
       def raw_info
-        @raw_info ||= JSON.load(access_token.get('/v2/home/user/verify').body)
+        @raw_info ||= JSON.parse(access_token.get('/v2/home/user/verify').body)
       rescue ::Errno::ETIMEDOUT
         raise ::Timeout::Error
       end

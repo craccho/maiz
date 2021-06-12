@@ -1,0 +1,7 @@
+module Zaim::Operation
+  class WithAccessToken < Trailblazer::Operation
+    def extract_access_token: (untyped ctx, session: untyped, **untyped) -> untyped
+
+    def execute_action: (untyped ctx, action: untyped, **untyped) -> untyped
+  end
+end

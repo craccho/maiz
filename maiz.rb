@@ -1,10 +1,21 @@
+# frozen_string_literal: true
+
+require 'bundler'
 require 'pry'
 require 'byebug'
 require 'sinatra/base'
 require 'sinatra/reloader'
+require 'sinatra/basic_auth'
 
+# maiz
 class Maiz < Sinatra::Base
   require File.join(root, '/config/initializers/autoloader.rb')
+
+  register Sinatra::BasicAuth
+
+  authorize 'Test' do |username, password|
+    username == 'foo' && password == 'bar'
+  end
 
   use OmniAuth::Builder do
     provider :zaim, ENV['ZAIM_CONSUMER_ID'], ENV['ZAIM_CONSUMER_SECRET']
@@ -31,7 +42,7 @@ class Maiz < Sinatra::Base
   end
 
   before do
-    pass if request.path_info =~ /^\/auth\//
+    pass unless request.path_info =~ %r{^/$}
     redirect to('/auth/zaim') unless current_user
   end
 
@@ -39,6 +50,12 @@ class Maiz < Sinatra::Base
     result = session[:access_token].get('/v2/home/user/verify')
     pp session[:auth].to_h
     result.body
+  end
+
+  protect 'Test' do
+    get '/test' do
+      'me'
+    end
   end
 
   get '/auth/logout' do

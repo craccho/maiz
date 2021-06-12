@@ -1,0 +1,3 @@
+class Maiz < ::Sinatra::Base
+  extend ::Sinatra::BasicAuth
+end

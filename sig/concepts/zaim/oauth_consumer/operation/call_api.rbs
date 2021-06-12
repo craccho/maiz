@@ -1,0 +1,13 @@
+module Zaim::OauthConsumer
+  module Operation
+    class CallApi < ::Trailblazer::Operation
+      def build_request: (untyped ctx, uri: String, method: untyped, **untyped) -> boolish
+
+      def build_oauth_params: (untyped ctx, auth: untyped, uri: String, **untyped) -> boolish
+
+      def add_authorization_header_to_req: (untyped _ctx, oauth_params: untyped, req: untyped, **untyped) -> boolish
+
+      def do_request: (untyped ctx, req: untyped, **untyped) -> boolish
+    end
+  end
+end

@@ -1,27 +1,34 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
-gem "sinatra"
 gem 'async_sinatra'
-gem 'thin'
-gem 'dry-types'
 gem 'dry-struct'
+gem 'dry-types'
 gem 'oauth'
 gem 'omniauth'
 gem 'omniauth-oauth'
-gem 'typhoeus'
+gem 'rake', '>= 12.3.3'
+gem 'sinatra'
+gem 'sinatra-basic-auth'
+gem 'thin'
 gem 'trailblazer-activity'
 gem 'trailblazer-activity-dsl-linear'
 gem 'trailblazer-context'
-gem 'trailblazer-operation'
 gem 'trailblazer-macro'
+gem 'trailblazer-operation'
+gem 'typhoeus'
 
 group 'development' do
-  gem 'irb'
   gem 'byebug'
+  gem 'capybara'
+  gem 'irb'
+  gem 'pry'
+  gem 'puma'
+  gem 'rspec'
+  gem 'ruby-prof'
+  gem 'selenium-webdriver'
   gem 'sinatra-reloader'
   gem 'trailblazer-developer'
-  gem 'pry'
-  gem 'ruby-prof'
+  gem 'steep'
 end
-
-gem 'rake', ">= 12.3.3"

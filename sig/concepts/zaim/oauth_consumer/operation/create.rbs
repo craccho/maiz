@@ -1,0 +1,7 @@
+module Zaim::OauthConsumer
+  module Operation
+    class Create < Trailblazer::Operation
+      def oauth_consumer: (untyped ctx, **untyped) -> untyped
+    end
+  end
+end

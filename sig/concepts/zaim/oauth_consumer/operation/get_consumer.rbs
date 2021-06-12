@@ -1,0 +1,7 @@
+module Zaim::OauthConsumer
+  module Operation
+    class GetConsumer < ::Trailblazer::Operation
+      def get_oauth_consumer_from_session: (untyped ctx, env: untyped, **untyped) -> boolish
+    end
+  end
+end
