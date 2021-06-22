@@ -9,7 +9,6 @@ module ::Anonymous_Delegator_53; end
 module ::Anonymous_Delegator_58; end
 module ActiveSupport::TimeWithZone::TZInfo::TimezonePeriod; end
 module Kramdown::Converter::Kramdown::Utils::Configurable; end
-module Sinatra::BasicAuth; end
 module Sinatra::Reloader; end
 module T::CompatibilityPatches::RSpecCompatibility::MethodDoubleExtensions; end
 module T::CompatibilityPatches::RSpecCompatibility::RecorderExtensions; end

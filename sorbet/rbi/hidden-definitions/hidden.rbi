@@ -11873,9 +11873,6 @@ class Kramdown::Converter::Kramdown
   TYPOGRAPHIC_SYMS = ::T.let(nil, ::T.untyped)
 end
 
-class Kramdown::Converter::Kramdown
-end
-
 class Kramdown::Converter::Latex
   def attribute_list(el); end
 
@@ -11999,6 +11996,10 @@ class Kramdown::Converter::Toc
 end
 
 class Kramdown::Converter::Toc
+end
+
+module Kramdown::Converter
+  extend ::Kramdown::Utils::Configurable
 end
 
 class Kramdown::Element

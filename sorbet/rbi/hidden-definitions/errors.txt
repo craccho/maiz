@@ -5669,7 +5669,6 @@
 # wrong constant name ial_for_element
 # wrong constant name inner
 # wrong constant name parse_title
-# wrong constant name <static-init>
 # uninitialized constant Kramdown::Converter::Latex::SMART_QUOTE_INDICES
 # wrong constant name attribute_list
 # wrong constant name convert
