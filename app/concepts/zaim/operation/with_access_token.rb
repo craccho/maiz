@@ -1,3 +1,4 @@
+# typed: true
 module Zaim::Operation
   class WithAccessToken < Trailblazer::Operation  # input: %i[uri method oauth_consumer access_token], output: %i[req response]
     step :extract_access_token,             input: %i[session],                      output: %i[access_token]

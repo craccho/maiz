@@ -1,3 +1,4 @@
+# typed: strict
 require 'capybara'
 require 'capybara/rspec'
 require_relative '../maiz'

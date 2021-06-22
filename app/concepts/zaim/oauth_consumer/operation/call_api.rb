@@ -1,3 +1,4 @@
+# typed: true
 module Zaim::OauthConsumer
   module Operation
     class CallApi < Trailblazer::Operation  # input: %i[uri method oauth_consumer access_token], output: %i[req response]

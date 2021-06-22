@@ -1,3 +1,4 @@
+# typed: true
 require 'oauth'
 require 'oauth/request_proxy/typhoeus_request'
 

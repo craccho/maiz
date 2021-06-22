@@ -31,4 +31,8 @@ group 'development' do
   gem 'sinatra-reloader'
   gem 'trailblazer-developer'
   gem 'steep'
+  gem 'solargraph'
+  gem 'sorbet'
 end
+
+gem 'sorbet-runtime'

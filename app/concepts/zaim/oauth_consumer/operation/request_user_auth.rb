@@ -1,3 +1,4 @@
+# typed: true
 require_relative 'create'
 module Zaim::OauthConsumer
   module Operation

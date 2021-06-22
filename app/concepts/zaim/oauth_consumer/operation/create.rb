@@ -1,3 +1,4 @@
+# typed: true
 module Zaim::OauthConsumer
   module Operation
     class Create < Trailblazer::Operation

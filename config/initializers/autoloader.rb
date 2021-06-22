@@ -1,3 +1,4 @@
+# typed: strict
 # frozen_string_literal: true
 
 paths = %w[config/initializers/*.rb app/**/*.rb lib/**/*.rb].map(&:freeze).freeze

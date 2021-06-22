@@ -20,7 +20,11 @@
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
-		"rebornix.Ruby"
+		"wingrunr21.vscode-ruby",
+		"rebornix.Ruby",
+		"hanachin.ruby-signature",
+		"soutaro.steep-vscode",
+		"castwide.solargraph"
 	],
 	
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
@@ -28,6 +32,7 @@
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "ruby --version",
+	"postCreateCommand": "bundle --path=vendor/bundle",
 
 	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "vscode"

@@ -1,3 +1,4 @@
+# typed: true
 require_relative 'get_consumer'
 module Zaim::OauthConsumer
   module Operation
